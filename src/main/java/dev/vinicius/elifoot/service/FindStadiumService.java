@@ -1,6 +1,8 @@
 package dev.vinicius.elifoot.service;
 
+import dev.vinicius.elifoot.controller.response.StadiumResponse;
 import dev.vinicius.elifoot.entity.Stadium;
+import dev.vinicius.elifoot.mapper.StadiumMapper;
 import dev.vinicius.elifoot.repository.StadiumRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +16,7 @@ public class FindStadiumService {
         this.stadiumRepository = stadiumRepository;
     }
 
-    public Page<Stadium> findAll(Pageable pageable){
-        return this.stadiumRepository.findAll(pageable);
+    public Page<StadiumResponse> findAll(Pageable pageable){
+        return this.stadiumRepository.findAll(pageable).map(StadiumMapper::toResponse);
     }
 }
