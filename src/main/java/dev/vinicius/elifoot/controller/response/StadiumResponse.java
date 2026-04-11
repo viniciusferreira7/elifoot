@@ -1,14 +1,18 @@
 package dev.vinicius.elifoot.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
+@Builder
 public class StadiumResponse {
 
-    private Long id;
+    private UUID id;
     private String name;
     private String city;
     private Integer capacity;
