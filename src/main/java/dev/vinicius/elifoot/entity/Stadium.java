@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,9 +17,8 @@ import lombok.NoArgsConstructor;
 public class Stadium {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stadium_seq")
-    @SequenceGenerator(name = "stadium_seq", sequenceName = "stadium_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false,  length = 255)
     private String name;

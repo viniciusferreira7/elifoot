@@ -3,6 +3,8 @@ package dev.vinicius.elifoot.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -12,9 +14,8 @@ import lombok.*;
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_seq")
-    @SequenceGenerator(name = "player_seq", sequenceName = "player_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String name;
 

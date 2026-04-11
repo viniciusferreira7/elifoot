@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
@@ -13,9 +14,8 @@ import java.util.List;
 @Table(name = "club")
 public class Club {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "club_seq")
-    @SequenceGenerator(name = "club_seq", sequenceName = "club_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String name;
     private LocalDate founded;
     private String urlImg;
