@@ -1,15 +1,15 @@
 package dev.vinicius.elifoot.controller;
 
+import dev.vinicius.elifoot.controller.request.StadiumRequest;
 import dev.vinicius.elifoot.controller.response.StadiumResponse;
 import dev.vinicius.elifoot.entity.Stadium;
+import dev.vinicius.elifoot.service.CreateStadiumService;
 import dev.vinicius.elifoot.service.FindStadiumService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +17,21 @@ import java.util.List;
 @RequestMapping("/api/stadiums")
 public class StadiumController {
     private final FindStadiumService findStadiumService;
+    private final CreateStadiumService createStadiumService;
 
-    public StadiumController(FindStadiumService findStadiumService) {
+    public StadiumController(
+            FindStadiumService findStadiumService,
+            CreateStadiumService createStadiumService
+    ) {
         this.findStadiumService = findStadiumService;
+        this.createStadiumService = createStadiumService;
+    }
+
+    @PostMapping
+    public  ResponseEntity<StadiumResponse> create(@RequestBody StadiumRequest stadiumRequest){
+        StadiumResponse stadiumResponse = this.createStadiumService.create(stadiumRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(stadiumResponse);
     }
 
     @GetMapping
