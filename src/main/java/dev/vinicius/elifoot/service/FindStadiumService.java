@@ -1,7 +1,6 @@
 package dev.vinicius.elifoot.service;
 
 import dev.vinicius.elifoot.controller.response.StadiumResponse;
-import dev.vinicius.elifoot.entity.Stadium;
 import dev.vinicius.elifoot.mapper.StadiumMapper;
 import dev.vinicius.elifoot.repository.StadiumRepository;
 import org.springframework.data.domain.Page;
@@ -11,12 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class FindStadiumService {
     private final StadiumRepository stadiumRepository;
+    private final StadiumMapper stadiumMapper;
 
-    public FindStadiumService(StadiumRepository stadiumRepository) {
+    public FindStadiumService(StadiumRepository stadiumRepository, StadiumMapper stadiumMapper) {
         this.stadiumRepository = stadiumRepository;
+        this.stadiumMapper = stadiumMapper;
     }
 
     public Page<StadiumResponse> findAll(Pageable pageable){
-        return this.stadiumRepository.findAll(pageable).map(StadiumMapper::toResponse);
+        return this.stadiumRepository.findAll(pageable).map(this.stadiumMapper::toResponse);
     }
 }
