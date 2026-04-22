@@ -1,21 +1,19 @@
 package dev.vinicius.elifoot.controller;
 
+import dev.vinicius.elifoot.controller.response.ClubDetailsResponse;
 import dev.vinicius.elifoot.controller.response.ClubResponse;
 import dev.vinicius.elifoot.service.FindClubService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/clubs")
 public class ClubController {
 
-    private final FindClubService findClubService
+    private final FindClubService findClubService;
 
     public ClubController(FindClubService findClubService) {
         this.findClubService = findClubService;
@@ -29,7 +27,8 @@ public class ClubController {
     }
 
     @GetMapping("/{id}")
-    public void finById(){
+    public ResponseEntity<ClubDetailsResponse> finById(@PathVariable String id){
+        return this.findClubService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
