@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,5 +21,5 @@ public class ClubRequest {
     @NotNull
     private LocalDate founded;
     private String urlImg;
-    private Long stadiumId;
+    private UUID stadiumId;
 }
