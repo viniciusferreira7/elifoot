@@ -6,9 +6,11 @@ import dev.vinicius.elifoot.entity.Club;
 import dev.vinicius.elifoot.expection.ResourceNotFoundException;
 import dev.vinicius.elifoot.mapper.ClubMapper;
 import dev.vinicius.elifoot.repository.ClubRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+@Service
 public class CreateClubService {
     private final ClubRepository clubRepository;
     private final ClubMapper clubMapper;
