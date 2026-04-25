@@ -75,6 +75,14 @@ http://localhost:8080/v3/api-docs
 | `GET` | `/api/clubs` | List all clubs (paginated) |
 | `GET` | `/api/clubs/{id}` | Get club details by ID |
 
+### Players — `/api/players`
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/players` | Register a new player |
+| `GET` | `/api/players` | List all players (paginated) |
+| `GET` | `/api/players/{id}` | Get player details by ID |
+
 ## Project Structure
 
 ```
