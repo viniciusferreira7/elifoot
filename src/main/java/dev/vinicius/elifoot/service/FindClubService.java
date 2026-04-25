@@ -2,7 +2,6 @@ package dev.vinicius.elifoot.service;
 
 import dev.vinicius.elifoot.controller.response.ClubDetailsResponse;
 import dev.vinicius.elifoot.controller.response.ClubResponse;
-import dev.vinicius.elifoot.entity.Club;
 import dev.vinicius.elifoot.mapper.ClubMapper;
 import dev.vinicius.elifoot.repository.ClubRepository;
 import org.springframework.data.domain.Page;
