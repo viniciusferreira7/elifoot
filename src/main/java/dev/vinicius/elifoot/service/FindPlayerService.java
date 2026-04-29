@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,5 +27,11 @@ public class FindPlayerService {
         return this.playerRepository
                 .findById(UUID.fromString(playerId))
                 .map(this.playerMapper::toDetailsResponse);
+    }
+
+    public Page<PlayerResponse> findPlayerByClubId(String clubId, Pageable pageable) {
+        return this.playerRepository
+                .findByClubId(UUID.fromString(clubId), pageable)
+                .map(this.playerMapper::toResponse);
     }
 }
