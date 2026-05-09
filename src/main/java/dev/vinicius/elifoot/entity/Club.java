@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "club")
 public class Club {
