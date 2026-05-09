@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -31,5 +33,13 @@ public class User {
 
     @Column(nullable = false )
     private Boolean active = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_scopes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "scope_id")
+    )
+    List<Scope> scopes = new ArrayList<>();
 
 }
