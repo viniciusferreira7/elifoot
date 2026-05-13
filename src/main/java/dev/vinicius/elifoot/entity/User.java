@@ -34,7 +34,7 @@ public class User {
     @Column(nullable = false )
     private Boolean active = true;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_scopes",
             joinColumns = @JoinColumn(name = "user_id"),
