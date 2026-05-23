@@ -69,8 +69,15 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.CREATED).body(clubDetailsResponse);
     }
 
+    @Operation(summary = "Find players by club ID", description = "Returns a paginated list of players belonging to a specific club")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Players retrieved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+            @ApiResponse(responseCode = "404", description = "Club not found", content = @Content)
+    })
     @GetMapping("/{id}/players")
-    public ResponseEntity<Page<PlayerResponse>> findPlayersByClubId(@PathVariable("id") String clubId, Pageable pageable){
+    public ResponseEntity<Page<PlayerResponse>> findPlayersByClubId(
+            @Parameter(description = "Club UUID", required = true) @PathVariable("id") String clubId, Pageable pageable){
         Page<PlayerResponse> playerResponses = this.findPlayerService.findPlayerByClubId(clubId, pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(playerResponses);
