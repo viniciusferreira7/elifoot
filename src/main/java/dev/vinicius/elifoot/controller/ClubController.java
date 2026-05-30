@@ -18,7 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import dev.vinicius.elifoot.config.security.annotation.ClubReadScope;
+import dev.vinicius.elifoot.config.security.annotation.ClubWriteScope;
+import dev.vinicius.elifoot.config.security.annotation.PlayerReadScope;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,7 +41,7 @@ public class ClubController {
     @Operation(summary = "List all clubs", description = "Returns a paginated list of all registered clubs")
     @ApiResponse(responseCode = "200", description = "Clubs retrieved successfully",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class)))
-    @PreAuthorize("hasAnyAuthority('SCOPE_club:read', 'SCOPE_admin:all')")
+    @ClubReadScope
     @GetMapping
     public ResponseEntity<Page<ClubResponse>> findAll(Pageable pageable) {
         Page<ClubResponse> clubResponses = this.findClubService.findAll(pageable);
@@ -52,7 +54,7 @@ public class ClubController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ClubDetailsResponse.class))),
             @ApiResponse(responseCode = "404", description = "Club not found", content = @Content)
     })
-    @PreAuthorize("hasAnyAuthority('SCOPE_club:read', 'SCOPE_admin:all')")
+    @ClubReadScope
     @GetMapping("/{id}")
     public ResponseEntity<ClubDetailsResponse> finById(
             @Parameter(description = "Club UUID", required = true) @PathVariable String id) {
@@ -66,7 +68,7 @@ public class ClubController {
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content),
             @ApiResponse(responseCode = "404", description = "Stadium not found", content = @Content)
     })
-    @PreAuthorize("hasAnyAuthority('SCOPE_club:write', 'SCOPE_admin:all')")
+    @ClubWriteScope
     @PostMapping
     public ResponseEntity<ClubDetailsResponse> create(@RequestBody ClubRequest clubRequest) {
         ClubDetailsResponse clubDetailsResponse = this.createClubService.create(clubRequest);
@@ -79,7 +81,7 @@ public class ClubController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
             @ApiResponse(responseCode = "404", description = "Club not found", content = @Content)
     })
-    @PreAuthorize("hasAnyAuthority('SCOPE_player:read', 'SCOPE_admin:all')")
+    @PlayerReadScope
     @GetMapping("/{id}/players")
     public ResponseEntity<Page<PlayerResponse>> findPlayersByClubId(
             @Parameter(description = "Club UUID", required = true) @PathVariable("id") String clubId, Pageable pageable){
