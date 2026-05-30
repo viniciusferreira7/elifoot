@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,6 +39,7 @@ public class StadiumController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = StadiumResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content)
     })
+    @PreAuthorize("hasAnyAuthority('SCOPE_stadium:write', 'SCOPE_admin:all')")
     @PostMapping
     public ResponseEntity<StadiumResponse> create(@RequestBody StadiumRequest stadiumRequest) {
         StadiumResponse stadiumResponse = this.createStadiumService.create(stadiumRequest);
@@ -47,6 +49,7 @@ public class StadiumController {
     @Operation(summary = "List all stadiums", description = "Returns a paginated list of all registered stadiums")
     @ApiResponse(responseCode = "200", description = "Stadiums retrieved successfully",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class)))
+    @PreAuthorize("hasAnyAuthority('SCOPE_stadium:read', 'SCOPE_admin:all')")
     @GetMapping
     public ResponseEntity<Page<StadiumResponse>> findAll(Pageable pageable) {
         Page<StadiumResponse> stadiums = this.findStadiumService.findAll(pageable);

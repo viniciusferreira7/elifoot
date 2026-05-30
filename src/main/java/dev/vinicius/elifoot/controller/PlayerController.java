@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +36,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = @Content),
             @ApiResponse(responseCode = "404", description = "Club not found", content = @Content)
     })
+    @PreAuthorize("hasAnyAuthority('SCOPE_player:write', 'SCOPE_admin:all')")
     @PostMapping
     public ResponseEntity<PlayerResponse> create(@RequestBody PlayerRequest playerRequest) {
         PlayerResponse playerResponse = this.createPlayerService.create(playerRequest);
@@ -44,6 +46,7 @@ public class PlayerController {
     @Operation(summary = "List all players", description = "Returns a paginated list of all registered players")
     @ApiResponse(responseCode = "200", description = "Players retrieved successfully",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class)))
+    @PreAuthorize("hasAnyAuthority('SCOPE_player:read', 'SCOPE_admin:all')")
     @GetMapping
     public ResponseEntity<Page<PlayerResponse>> findAll(Pageable pageable) {
         Page<PlayerResponse> playerResponses = this.findPlayerService.findAll(pageable);
@@ -56,6 +59,7 @@ public class PlayerController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = PlayerDetailsResponse.class))),
             @ApiResponse(responseCode = "404", description = "Player not found", content = @Content)
     })
+    @PreAuthorize("hasAnyAuthority('SCOPE_player:read', 'SCOPE_admin:all')")
     @GetMapping("/{id}")
     public ResponseEntity<PlayerDetailsResponse> findById(
             @Parameter(description = "Player UUID", required = true) @PathVariable String id) {
