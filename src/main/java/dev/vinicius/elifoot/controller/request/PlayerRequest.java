@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @Getter
 @Setter
@@ -30,6 +32,6 @@ public class PlayerRequest {
     private String urlImg;
 
     @NotNull
-    @Schema(description = "ID of the club the player belongs to", example = "1")
-    private Long clubId;
+    @Schema(description = "UUID of the club the player belongs to")
+    private UUID clubId;
 }

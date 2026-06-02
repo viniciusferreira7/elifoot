@@ -5,13 +5,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Schema(description = "Full player details including club information")
 public class PlayerDetailsResponse {
 
-    @Schema(description = "Player ID")
-    private Long id;
+    @Schema(description = "Player UUID")
+    private UUID id;
 
     @Schema(description = "Player full name", example = "Gabigol")
     private String name;

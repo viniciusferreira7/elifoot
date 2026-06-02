@@ -12,6 +12,6 @@ public interface ClubMapper {
     ClubResponse toResponse(Club club);
     ClubDetailsResponse toDetailsResponse(Club club);
 
-    @Mapping(target = "stadium.id", source = "stadium_id")
+    @Mapping(target = "stadium.id", source = "stadiumId")
     Club toDomain(ClubRequest clubRequest);
 }
