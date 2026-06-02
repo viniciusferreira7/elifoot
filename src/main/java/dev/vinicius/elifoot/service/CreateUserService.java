@@ -4,6 +4,7 @@ import dev.vinicius.elifoot.controller.request.UserRequest;
 import dev.vinicius.elifoot.controller.response.UserResponse;
 import dev.vinicius.elifoot.entity.Scope;
 import dev.vinicius.elifoot.entity.User;
+import dev.vinicius.elifoot.mapper.UserMapper;
 import dev.vinicius.elifoot.repository.ScopeRepository;
 import dev.vinicius.elifoot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class CreateUserService {
     private final UserRepository userRepository;
     private final ScopeRepository scopeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public UserResponse create(UserRequest request) {
         List<Scope> scopes = request.getScopeIds() == null ? List.of() :
@@ -38,18 +40,6 @@ public class CreateUserService {
 
         User saved = userRepository.save(user);
 
-        return toResponse(saved);
-    }
-
-    private UserResponse toResponse(User user) {
-        List<String> scopeNames = user.getScopes().stream().map(Scope::getName).toList();
-
-        return UserResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .active(user.getActive())
-                .scopes(scopeNames)
-                .build();
+        return userMapper.toResponse(saved);
     }
 }
