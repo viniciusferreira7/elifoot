@@ -2,16 +2,14 @@ package dev.vinicius.elifoot.controller.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Payload to register a new stadium")
+@Builder
 public class StadiumRequest {
 
     @NotBlank
@@ -26,5 +24,5 @@ public class StadiumRequest {
     private Integer capacity;
 
     @Schema(description = "URL of the stadium image")
-    private String urlImage;
+    private String urlImg;
 }
