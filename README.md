@@ -136,7 +136,49 @@ src/main/java/dev/vinicius/elifoot/
 ├── mapper/             # MapStruct mappers
 ├── repository/         # Spring Data JPA repositories
 ├── service/            # Business logic services
-└── expection/          # Custom exception classes
+└── expection/          # Custom exceptions and global error handler
+```
+
+## Error Handling
+
+All errors are returned as a structured `ErrorResponse` JSON body:
+
+```json
+{
+  "status": 404,
+  "error": "Resource not found",
+  "message": "Club with id '...' not found",
+  "timestamp": "2024-01-01T00:00:00Z",
+  "errors": null
+}
+```
+
+The `errors` field is populated with per-field validation messages when the request body fails validation (`400 Bad Request`).
+
+| Exception | HTTP status |
+|-----------|-------------|
+| `ResourceNotFoundException` | `404 Not Found` |
+| `IllegalArgumentException` | `422 Unprocessable Entity` |
+| `BadCredentialsException` | `401 Unauthorized` |
+| `MethodArgumentNotValidException` | `400 Bad Request` |
+| Any other exception | `500 Internal Server Error` |
+
+## Testing
+
+Unit tests live under `src/test/java/dev/vinicius/elifoot/`:
+
+```
+src/test/
+├── mapper/
+│   └── StadiumMapperTest.java   # MapStruct mapper unit tests
+└── service/
+    └── CreateClubServiceTest.java  # Business logic unit tests
+```
+
+Run all tests with:
+
+```bash
+mvn test
 ```
 
 ## Database Migrations
