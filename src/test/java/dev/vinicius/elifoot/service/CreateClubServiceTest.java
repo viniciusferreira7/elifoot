@@ -7,17 +7,15 @@ import dev.vinicius.elifoot.entity.Club;
 import dev.vinicius.elifoot.entity.Stadium;
 import dev.vinicius.elifoot.mapper.ClubMapper;
 import dev.vinicius.elifoot.repository.ClubRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +32,9 @@ class CreateClubServiceTest {
 
     @Mock
     FindStadiumService findStadiumService;
+
+    @Captor
+    ArgumentCaptor<Club> clubArgumentCaptor;
 
     @Test
     void execute(){
@@ -74,6 +75,22 @@ class CreateClubServiceTest {
 
         Mockito.when(this.clubMapper.toDomain(clubRequest)).thenReturn(club);
         ClubDetailsResponse clubDetailsResponse = this.createClubService.create(clubRequest);
+
+        Mockito.verify(this.clubMapper).toDomain(clubRequest);
+        Mockito.verify(this.clubRepository).save(Mockito.any(Club.class));
+
+        Mockito.verify(this.clubRepository).save(clubArgumentCaptor.capture());
+
+        Club savedClub = clubArgumentCaptor.getValue();
+
+        assertNotNull(savedClub.getStadium());
+        assertEquals(stadium.getId(), savedClub.getStadium().getId());
+        assertEquals(stadium.getName(), savedClub.getStadium().getName());
+        assertEquals(stadium.getCity(), savedClub.getStadium().getCity());
+        assertEquals(stadium.getCapacity(), savedClub.getStadium().getCapacity());
+        assertEquals(stadium.getUrlImg(), savedClub.getStadium().getUrlImg());
+
+
 
 
     }
