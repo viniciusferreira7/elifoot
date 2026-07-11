@@ -4,6 +4,7 @@ import dev.vinicius.elifoot.controller.request.UserRequest;
 import dev.vinicius.elifoot.controller.response.UserResponse;
 import dev.vinicius.elifoot.entity.Scope;
 import dev.vinicius.elifoot.entity.User;
+import dev.vinicius.elifoot.expection.ResourceAlreadyExistsException;
 import dev.vinicius.elifoot.mapper.UserMapper;
 import dev.vinicius.elifoot.repository.ScopeRepository;
 import dev.vinicius.elifoot.repository.UserRepository;
@@ -24,6 +25,11 @@ public class CreateUserService {
     private final UserMapper userMapper;
 
     public UserResponse create(UserRequest request) {
+        if(this.userRepository.existsByEmail(request.getEmail())){
+            throw new ResourceAlreadyExistsException("Email already in use, email: " + request.getEmail());
+        }
+
+
         List<Scope> scopes = request.getScopeIds() == null ? List.of() :
                 request.getScopeIds().stream()
                         .map(id -> scopeRepository.findById(UUID.fromString(id))
